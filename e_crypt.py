@@ -1,7 +1,7 @@
 import random
 
 
-# Method for finding greatest common denominator or two numbers
+# Method for finding greatest common denominator of two numbers
 def gcd(a, b):
     while b:
         a, b = b, a % b
