@@ -12,7 +12,6 @@ class RSA:
                         a, b = b, a % b
                 return a
 
-
         def is_prime(self, n):
                 if n <= 1:
                         return False
@@ -21,7 +20,6 @@ class RSA:
                                 return False
                 return True
 
-
         def ext_gcd(self, a, b):
                 if b == 0:
                         return 1, 0, a
@@ -29,7 +27,6 @@ class RSA:
                         x, y, q = self.ext_gcd(b, a % b)
                         x, y = y, (x - (a // b) * y)
                         return x, y, q
-
 
         def phi(self, n):
                 ret = 1
@@ -48,7 +45,6 @@ class RSA:
 
                 return ret
 
-
         def compute_d(self, fn, e):
                 (x, y, r) = self.ext_gcd(fn, e)
                 # y maybe < 0, so convert it
@@ -56,19 +52,19 @@ class RSA:
                         return fn + y
                 return y
 
-
         def random_prime(self, halfkeylength):
                 while True:
+                        # 选择随机数
                         n = random.randint(0, 1 << halfkeylength)
                         if n % 2 != 0:
                                 found = True
+                                # 随机性测试
                                 for i in range(0, 5):
                                         if self.prime_test(n) == 'composite':
                                                 found = False
                                                 break
                                 if found:
                                         return n
-
 
         def prime_test(self, n):
                 q = n - 1
@@ -84,7 +80,6 @@ class RSA:
                                 return "inconclusive"
                 return "composite"
 
-
         def generate_key(self, key_len):
                 p = self.random_prime(key_len // 2)
                 q = self.random_prime(key_len // 2)
@@ -94,21 +89,17 @@ class RSA:
                 d = self.compute_d(fn, e)
                 return self.int_2_hex(n), self.int_2_hex(e), self.int_2_hex(d)
 
-
         def hex_list(self, intList):
                 s = ""
                 for elem in intList:
                         s += "{:02x}".format(elem) + "+"
                 return s
 
-
         def int_2_hex(self, n):
                 return "{:02x}".format(n)
 
-
         def hex_2_int(self, h):
                 return int(h, 16)
-
 
         def encryption(self, ptext, e, n):
                 e, n = self.hex_2_int(e), self.hex_2_int(n)
@@ -119,7 +110,6 @@ class RSA:
                 num = int(h, 16)
                 encrypt = lambda x: pow(x, e, n)
                 return self.int_2_hex(encrypt(num))
-
 
         def decryption(self, ctext, d, n):
                 ctext, d, n = int(ctext, 16), self.hex_2_int(d), self.hex_2_int(n)
@@ -132,7 +122,6 @@ class RSA:
                         bytes.append(int(h[i: i + 2], 16))
                         i += 2
                 return "".join([chr(byte) for byte in bytes])
-
 
         def clean_print(self, string):
             for i, c in enumerate(string):
