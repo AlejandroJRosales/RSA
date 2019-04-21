@@ -54,11 +54,9 @@ class RSA:
 
         def random_prime(self, halfkeylength):
                 while True:
-                        # 选择随机数
                         n = random.randint(0, 1 << halfkeylength)
                         if n % 2 != 0:
                                 found = True
-                                # 随机性测试
                                 for i in range(0, 5):
                                         if self.prime_test(n) == 'composite':
                                                 found = False
